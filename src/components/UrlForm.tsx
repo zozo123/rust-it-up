@@ -5,7 +5,6 @@ import { startScan } from '../lib/mockScan'
 
 const SAMPLES = [
   { id: 'jqlang/jq', note: 'extract hotspot' },
-  { id: 'memcached/memcached', note: 'high commercial' },
   { id: 'postgres/postgres', note: 'do not rewrite' },
 ]
 
