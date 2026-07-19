@@ -7,7 +7,6 @@ const SAMPLES = [
   { id: 'jqlang/jq', note: 'extract hotspot' },
   { id: 'memcached/memcached', note: 'high commercial' },
   { id: 'postgres/postgres', note: 'do not rewrite' },
-  { id: 'python/cpython', note: 'low feasibility' },
 ]
 
 export function UrlForm({ large, autoFocus }: { large?: boolean; autoFocus?: boolean }) {
@@ -59,23 +58,9 @@ export function UrlForm({ large, autoFocus }: { large?: boolean; autoFocus?: boo
 
   return (
     <div id="analyze">
-      <form className="url-form" onSubmit={onSubmit} noValidate>
-        <div className="cmd-bar">
-          <div className="cmd-bar-top">
-            <div className="cmd-dots" aria-hidden>
-              <span />
-              <span />
-              <span />
-            </div>
-            <span className="cmd-title">analyze · public github only</span>
-            <span className="kbd" style={{ marginLeft: 'auto' }}>
-              ⌘K
-            </span>
-          </div>
-          <div className="cmd-bar-body">
-            <span className="cmd-prefix" aria-hidden>
-              ›
-            </span>
+      <form className="url-form verdict-form" onSubmit={onSubmit} noValidate>
+        <div className="verdict-form-shell">
+          <div className="verdict-form-row">
             <label className="sr-only" htmlFor="github-url">
               Public GitHub repository URL
             </label>
@@ -88,7 +73,7 @@ export function UrlForm({ large, autoFocus }: { large?: boolean; autoFocus?: boo
               inputMode="url"
               autoComplete="off"
               spellCheck={false}
-              placeholder="github.com/owner/repo  or  owner/repo"
+              placeholder="github.com/owner/repo"
               value={url}
               onChange={(e) => {
                 setUrl(e.target.value)
@@ -102,12 +87,12 @@ export function UrlForm({ large, autoFocus }: { large?: boolean; autoFocus?: boo
               type="submit"
               disabled={busy}
             >
-              {busy ? 'Starting…' : 'Analyze repository'}
+              {busy ? 'Starting…' : 'Get the verdict →'}
             </button>
           </div>
         </div>
-        <p id="url-hint" className="muted" style={{ margin: '0.55rem 0 0', fontSize: '0.8rem' }}>
-          Full URL or <code>owner/repo</code>. We never execute repository code.
+        <p id="url-hint" className="verdict-form-hint">
+          <span>Free</span><span>No signup</span><span>No code execution</span><span>Shareable report</span>
         </p>
         {error && (
           <p id="url-error" className="field-error" role="alert">
@@ -116,7 +101,7 @@ export function UrlForm({ large, autoFocus }: { large?: boolean; autoFocus?: boo
         )}
       </form>
       <div className="sample-chips">
-        <span className="sample-label">Try a known case</span>
+        <span className="sample-label">Or try:</span>
         {SAMPLES.map((s) => (
           <button
             key={s.id}

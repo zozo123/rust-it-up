@@ -1,8 +1,11 @@
 # Rust It Up
 
+[![CI](https://github.com/zozo123/rust-it-up/actions/workflows/ci.yml/badge.svg)](https://github.com/zozo123/rust-it-up/actions/workflows/ci.yml)
+[![Live site](https://img.shields.io/badge/live-rust--it--up-ec7d3e)](https://zozo123.github.io/rust-it-up/)
+
 > Should this repo be rewritten in Rust?
 
-**Rust It Up** is a polished developer SaaS scorecard product (product name / concept: *RustThisRepo*). Paste a public GitHub URL and get an evidence-oriented report: Rust Upside, Migration Feasibility, Commercial Signal, strategy recommendation, P50/P90 effort ranges, CI/CD effort, and the safest first migration slice.
+Paste a public GitHub repo. Get a clear verdict, a P50–P90 effort range, and the safest first migration slice. Every scorecard has a shareable URL.
 
 **Live (GitHub Pages):** https://zozo123.github.io/rust-it-up/
 
@@ -69,9 +72,9 @@ Browser → Edge Function (validate, upsert project, create scan)
 
 Cache key: `owner/repo + commit_sha + scanner_version`.
 
-## CI (planned)
+## CI
 
-On every PR in parallel: format/lint, typecheck, unit tests, production build, migration checks, Playwright smoke (landing, URL submit, report, lead form), dependency/secret scan. Target 7–14 minutes feedback.
+Every pull request runs lint, TypeScript, and the production build. Pushes to `main` deploy the validated build to GitHub Pages.
 
 ## License
 
