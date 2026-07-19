@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" font-family="'IBM Plex Sans','Helvetica Neue',Arial,sans-serif">
+  <rect width="1200" height="630" fill="#0a0e14"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#glow)"/>
+  <defs>
+    <radialGradient id="glow" cx="82%" cy="16%" r="70%">
+      <stop offset="0%" stop-color="#c45c26" stop-opacity="0.20"/>
+      <stop offset="55%" stop-color="#c45c26" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#0a0e14" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="24" y="24" width="1152" height="582" rx="18" fill="none" stroke="#1c232e" stroke-width="1.5"/>
+
+  <!-- logo mark -->
+  <rect x="72" y="70" width="52" height="52" rx="8" fill="#0a0e14" stroke="#c45c26" stroke-width="2"/>
+  <text x="98" y="105" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="24" font-weight="600" fill="#e8e4dc">Ru</text>
+  <text x="140" y="106" font-size="26" font-weight="700" fill="#e8e4dc">Rust It <tspan fill="#c45c26">Up</tspan></text>
+
+  <!-- eyebrow -->
+  <text x="72" y="238" font-family="'IBM Plex Mono',monospace" font-size="22" letter-spacing="3" fill="#c45c26">RUST MIGRATION INTELLIGENCE</text>
+
+  <!-- headline -->
+  <text x="70" y="322" font-size="76" font-weight="700" fill="#e8e4dc">Should this repo be</text>
+  <text x="70" y="410" font-size="76" font-weight="700" fill="#e8e4dc">rewritten in <tspan fill="#c45c26">Rust?</tspan></text>
+
+  <!-- subhead -->
+  <text x="72" y="472" font-size="28" fill="#9aa4b2">Evidence-based scorecards — decision, P50–P90 effort, upside, and the</text>
+  <text x="72" y="510" font-size="28" fill="#9aa4b2">safest first migration slice. Static analysis only. No code execution.</text>
+
+  <!-- chips -->
+  <g font-family="'IBM Plex Mono',monospace" font-size="20" fill="#e8e4dc">
+    <rect x="72" y="540" width="196" height="42" rx="21" fill="#12181f" stroke="#28303c"/>
+    <text x="170" y="567" text-anchor="middle">100 OSS cases</text>
+    <rect x="284" y="540" width="196" height="42" rx="21" fill="#12181f" stroke="#28303c"/>
+    <text x="382" y="567" text-anchor="middle">P50 / P90 range</text>
+    <rect x="496" y="540" width="168" height="42" rx="21" fill="#12181f" stroke="#28303c"/>
+    <text x="580" y="567" text-anchor="middle">0 code exec</text>
+  </g>
+
+  <!-- right-side sample verdict card -->
+  <g>
+    <rect x="812" y="200" width="316" height="230" rx="14" fill="#12181f" stroke="#28303c"/>
+    <text x="836" y="242" font-family="'IBM Plex Mono',monospace" font-size="18" fill="#9aa4b2">decision · jqlang/jq</text>
+    <line x1="836" y1="258" x2="1104" y2="258" stroke="#28303c"/>
+    <text x="836" y="296" font-size="18" fill="#9aa4b2">Recommended strategy</text>
+    <text x="836" y="330" font-size="27" font-weight="700" fill="#c45c26">Extract a hotspot</text>
+    <text x="836" y="388" font-family="'IBM Plex Mono',monospace" font-size="17" fill="#9aa4b2">effort</text>
+    <text x="920" y="388" font-family="'IBM Plex Mono',monospace" font-size="17" fill="#e8e4dc">3–7 eng-mo</text>
+    <text x="836" y="414" font-family="'IBM Plex Mono',monospace" font-size="17" fill="#9aa4b2">upside</text>
+    <text x="920" y="414" font-family="'IBM Plex Mono',monospace" font-size="17" fill="#e8e4dc">strong · benchmark-gated</text>
+  </g>
+</svg>
