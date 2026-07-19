@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ensureScanProgress, STATUS_LABELS } from '../lib/mockScan'
 import type { ScanJob, ScanStatus } from '../types'
 import { getScan } from '../lib/storage'
+import { useDocumentTitle } from '../lib/useDocumentTitle'
 
 const FLOW: ScanStatus[] = [
   'queued',
@@ -14,6 +15,7 @@ const FLOW: ScanStatus[] = [
 ]
 
 export function Scan() {
+  useDocumentTitle('Analyzing repository')
   const { scanId } = useParams()
   const navigate = useNavigate()
   const [scan, setScan] = useState<ScanJob | null | undefined>(undefined)
@@ -32,6 +34,8 @@ export function Scan() {
         window.setTimeout(() => {
           navigate(`/r/${s.owner}/${s.repo}`, { replace: true })
         }, 450)
+      } else if (s?.status === 'failed') {
+        window.clearInterval(poll)
       }
     }, 350)
 
@@ -127,11 +131,18 @@ export function Scan() {
               </div>
             </div>
 
-            <div className="scan-meter" aria-hidden>
+            <div
+              className="scan-meter"
+              role="progressbar"
+              aria-valuenow={pct}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`Scan progress: ${STATUS_LABELS[scan.status]}`}
+            >
               <span style={{ width: `${pct}%` }} />
             </div>
-            <p className="mono muted" style={{ fontSize: '0.72rem', marginTop: '0.4rem' }}>
-              {pct}% · refresh-safe in this browser
+            <p className="mono muted" style={{ fontSize: '0.72rem', marginTop: '0.4rem' }} aria-live="polite">
+              {pct}% · {STATUS_LABELS[scan.status]} · refresh-safe in this browser
             </p>
 
             {scan.status === 'failed' ? (

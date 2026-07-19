@@ -7,11 +7,13 @@ import {
   listSignals,
   setAdminAuthed,
 } from '../lib/storage'
+import { useDocumentTitle } from '../lib/useDocumentTitle'
 
 /** Demo gate — not real security. Replace with Supabase auth. */
 const DEMO_PASS = 'rustitup'
 
 export function Admin() {
+  useDocumentTitle('Admin')
   const [authed, setAuthed] = useState(() => isAdminAuthed())
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
