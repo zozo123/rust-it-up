@@ -39,7 +39,7 @@ export function HomeV2() {
           <div className="hero-v3-copy">
             <p className="hero-v3-kicker">Rust migration decision report</p>
             <h1>
-              Should this repo be
+              Should this repo be{' '}
               <span>rewritten in Rust?</span>
             </h1>
             <p className="hero-v3-lead">
