@@ -8,12 +8,14 @@
   --line: #2a3548;
   --line-soft: #1e2838;
   --line-strong: #3d4d66;
-  --rust: #c45c26;
-  --rust-hot: #e8783a;
+  --rust: #c85e27;
+  --rust-hot: #ec7d3e;
+  --rust-ember: #f5a463;
   --rust-dim: #8a3f1a;
-  --rust-glow: rgba(196, 92, 38, 0.16);
-  --rust-glow-strong: rgba(196, 92, 38, 0.32);
-  --cream: #f0ebe3;
+  --rust-glow: rgba(200, 94, 39, 0.16);
+  --rust-glow-strong: rgba(200, 94, 39, 0.32);
+  --line-rust: rgba(200, 94, 39, 0.22);
+  --cream: #f2ede6;
   --cream-dim: #b5aea2;
   --cream-mute: #9a948a;
   --surface: #0e141e;
@@ -41,7 +43,7 @@
   --shadow-glow: 0 0 0 1px var(--rust-dim), 0 12px 40px rgba(196, 92, 38, 0.12);
 
   color-scheme: dark;
-  --focus: 0 0 0 2px var(--ink), 0 0 0 4px var(--rust-hot);
+  --focus: 0 0 0 2px var(--ink), 0 0 0 4px var(--rust-ember);
 }
 
 *,
@@ -70,12 +72,15 @@ body {
   font-size: 15.5px;
   line-height: 1.55;
   color: var(--cream);
-  background: var(--ink);
+  /* Single warm rust dawn-glow over near-black — the only ambient glow. */
+  background:
+    radial-gradient(1100px 480px at 50% -240px, rgba(200, 94, 39, 0.1), transparent 70%),
+    var(--ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Grid + vignette + subtle noise */
+/* Rust-tinted blueprint grid + vignette + subtle noise */
 body::before {
   content: '';
   position: fixed;
@@ -83,11 +88,11 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(42, 53, 72, 0.28) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(42, 53, 72, 0.28) 1px, transparent 1px);
+    linear-gradient(var(--line-rust) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-rust) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(ellipse 90% 60% at 50% -10%, black 10%, transparent 70%);
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 body::after {
@@ -184,9 +189,10 @@ code, .mono {
   z-index: 50;
   height: var(--header-h);
   border-bottom: 1px solid var(--line-soft);
-  background: rgba(7, 10, 15, 0.78);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  background: rgba(7, 10, 15, 0.72);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(200, 94, 39, 0.28);
 }
 
 .site-header .inner {
@@ -208,21 +214,17 @@ code, .mono {
   font-size: 0.98rem;
 }
 .logo:hover { text-decoration: none; color: var(--cream); }
-.logo-mark {
-  width: 26px;
-  height: 26px;
-  border: 1.5px solid var(--rust);
-  border-radius: 5px;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--rust-hot);
-  background: var(--rust-glow);
-  box-shadow: 0 0 12px rgba(196, 92, 38, 0.15);
+.logo-mark-svg {
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(200, 94, 39, 0.25));
+  transition: filter 0.2s var(--ease), transform 0.2s var(--ease);
 }
-.logo-text span { color: var(--rust-hot); }
+.logo:hover .logo-mark-svg {
+  filter: drop-shadow(0 3px 12px rgba(240, 136, 60, 0.45));
+  transform: translateY(-1px);
+}
+.logo-text span { color: var(--rust-hot); font-weight: 700; }
 
 .nav {
   display: flex;
@@ -343,7 +345,7 @@ main { flex: 1; }
   background: linear-gradient(180deg, #bc561f, #a1481b);
   color: #fff;
   border-color: #b8551f;
-  box-shadow: var(--shadow-sm), 0 1px 8px rgba(196, 92, 38, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 1px 10px rgba(200, 94, 39, 0.3);
 }
 .btn-primary:hover:not(:disabled) {
   background: linear-gradient(180deg, #bf5822, #ab4d1d);
@@ -589,6 +591,9 @@ main { flex: 1; }
   align-items: start;
 }
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
@@ -596,6 +601,15 @@ main { flex: 1; }
   color: var(--rust-hot);
   margin-bottom: 0.85rem;
   font-weight: 500;
+}
+/* Signature "upshift rule" — a short rust lead bar that rhymes with the logo bars */
+.eyebrow::before {
+  content: '';
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--rust-hot), transparent);
+  flex-shrink: 0;
 }
 .hero h1 { margin-bottom: 0.65rem; }
 .hero-lead {
@@ -688,6 +702,7 @@ main { flex: 1; }
 .product-window-body {
   padding: 1.1rem 1.15rem 1.2rem;
 }
+
 
 /* Score gauges — SVG */
 .gauges {
@@ -874,7 +889,7 @@ table.data a:hover { color: var(--rust-hot); }
   border-color: var(--rust-dim);
   text-decoration: none;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: inset 0 1px 0 var(--line-rust), var(--shadow-md);
 }
 .project-card h3 {
   margin: 0;

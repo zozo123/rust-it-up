@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { LogoMark } from './LogoMark'
 
 const nav = [
   { to: '/projects', label: 'Examples' },
@@ -41,9 +42,7 @@ export function Layout() {
       <header className="site-header">
         <div className="container inner">
           <Link to="/" className="logo" onClick={() => setOpen(false)}>
-            <span className="logo-mark" aria-hidden>
-              Ru
-            </span>
+            <LogoMark size={30} />
             <span className="logo-text">
               Rust It <span>Up</span>
             </span>
@@ -99,9 +98,7 @@ export function Layout() {
           <div className="footer-grid">
             <div className="footer-brand">
               <Link to="/" className="logo" style={{ marginBottom: '0.75rem' }}>
-                <span className="logo-mark" aria-hidden>
-                  Ru
-                </span>
+                <LogoMark size={28} />
                 <span className="logo-text">
                   Rust It <span>Up</span>
                 </span>
