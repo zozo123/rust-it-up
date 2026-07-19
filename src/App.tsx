@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Admin } from './pages/Admin'
 import { Compare } from './pages/Compare'
-import { Home } from './pages/Home'
+import { HomeV2 } from './pages/HomeV2'
 import { Methodology } from './pages/Methodology'
 import { Pricing } from './pages/Pricing'
 import { Projects } from './pages/Projects'
@@ -14,7 +14,7 @@ export default function App() {
     <BrowserRouter basename="/rust-it-up">
       <Routes>
         <Route element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<HomeV2 />} />
           <Route path="scan/:scanId" element={<Scan />} />
           <Route path="r/:owner/:repo" element={<Report />} />
           <Route path="projects" element={<Projects />} />
