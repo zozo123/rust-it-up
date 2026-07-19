@@ -30,7 +30,7 @@ Lovable/Supabase can become the product shell later. The UI boundary is explicit
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Landing, URL form, sample scorecard, FAQ |
+| `/` | Landing, URL form, sample decision scorecard, featured cases |
 | `/scan/:scanId` | Job progress (queued → complete), refresh-safe in-browser |
 | `/r/:owner/:repo` | Shareable report |
 | `/projects` | Searchable 100-example directory + compare selection |

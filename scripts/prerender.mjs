@@ -43,22 +43,24 @@ const esc = (s) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 
-/** Replace the content="" of a <meta> matched by an attr (name|property) key. */
+/** Replace the content="" of a <meta> matched by an attr (name|property) key.
+ *  Uses a function replacer so '$' in the value (e.g. "$2,500") is inserted
+ *  literally rather than treated as a String.replace backreference. */
 function setMeta(html, attr, key, value) {
   const v = esc(value)
   const re = new RegExp(`(<meta[^>]*\\b${attr}="${key}"[^>]*\\bcontent=")[^"]*(")`, 'i')
-  if (re.test(html)) return html.replace(re, `$1${v}$2`)
+  if (re.test(html)) return html.replace(re, (_m, p1, p2) => p1 + v + p2)
   const re2 = new RegExp(`(<meta[^>]*\\bcontent=")[^"]*("[^>]*\\b${attr}="${key}")`, 'i')
-  return html.replace(re2, `$1${v}$2`)
+  return html.replace(re2, (_m, p1, p2) => p1 + v + p2)
 }
 
 function stamp(template, { title, description, path }) {
   const url = `${SITE}${path}`
   let html = template
-  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${esc(title)}</title>`)
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${esc(title)}</title>`)
   html = html.replace(
     /(<link rel="canonical" href=")[^"]*(")/i,
-    `$1${esc(url)}$2`,
+    (_m, p1, p2) => p1 + esc(url) + p2,
   )
   html = setMeta(html, 'name', 'description', description)
   html = setMeta(html, 'property', 'og:title', title)
