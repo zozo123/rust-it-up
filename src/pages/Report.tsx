@@ -21,9 +21,9 @@ export function Report() {
   const quadrant = quadrantOf(e.rustUpside, e.migrationFeasibility)
 
   useEffect(() => {
-    const DEFAULT_TITLE = 'Rust It Up — Should this repo be rewritten in Rust?'
+    const DEFAULT_TITLE = 'Should this repo be rewritten in Rust? · Rust It Up'
     const DEFAULT_DESC =
-      'Should this repo be rewritten in Rust? Paste a GitHub URL. Get the business case, effort range, and safest first migration slice.'
+      'Paste a public GitHub repo. Get a clear Rust migration verdict, P50–P90 effort range, and safest first slice.'
     document.title = `How long would it take to rewrite ${project.repo} in Rust? · Rust It Up`
     const desc = `${RECOMMENDATION_LABELS[e.recommendation]}. P50–P90 ${e.p50EngineerMonths}–${e.p90EngineerMonths} eng-mo. Illustrative estimate.`
     let meta = document.querySelector('meta[name="description"]')

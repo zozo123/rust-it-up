@@ -34,10 +34,12 @@ export function Layout() {
         Skip to content
       </a>
 
-      <div className="announce">
-        <strong>Anti-hype rule:</strong> no guaranteed speedups · ranges & confidence only
-        <Link to="/methodology">why →</Link>
-      </div>
+      {!isHome && (
+        <div className="announce">
+          <strong>Anti-hype rule:</strong> no guaranteed speedups · ranges & confidence only
+          <Link to="/methodology">why →</Link>
+        </div>
+      )}
 
       <header className="site-header">
         <div className="container inner">
@@ -72,7 +74,7 @@ export function Layout() {
               className="btn btn-primary btn-sm"
               onClick={() => setOpen(false)}
             >
-              Analyze
+              Get verdict
             </Link>
           </nav>
         </div>
