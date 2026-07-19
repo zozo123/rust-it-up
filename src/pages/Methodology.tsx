@@ -7,8 +7,8 @@ export function Methodology() {
         <p className="eyebrow">How scoring works</p>
         <h1>Methodology</h1>
         <p>
-          Transparent axes, explicit limitations, and no invented performance wins. The scanner
-          (when connected) is deterministic; the LLM only synthesizes explanations from findings.
+          Transparent axes. Explicit limitations. No invented performance wins. When the worker
+          ships: deterministic findings → scores; LLM only narrates what findings already prove.
         </p>
       </header>
 

@@ -33,7 +33,7 @@ export function LeadForm({
   onDone,
 }: Props) {
   const [email, setEmail] = useState('')
-  const [productionUse, setProductionUse] = useState<string>('')
+  const [productionUse, setProductionUse] = useState('')
   const [band, setBand] = useState('')
   const [pain, setPain] = useState('')
   const [done, setDone] = useState(false)
@@ -81,10 +81,13 @@ export function LeadForm({
   if (done) {
     return (
       <div className="panel panel-raised">
-        <h3 className="mt-0">Thanks — report unlocked</h3>
-        <p className="mb-0">
-          Full illustrative detail is already on this page. For private or production repositories,
-          request a <strong className="cream">Verified Assessment</strong> from Pricing.
+        <div className="flex items-center gap-1" style={{ marginBottom: '0.4rem' }}>
+          <span className="badge badge-ok">saved</span>
+        </div>
+        <h3 className="mt-0">Thanks — context noted</h3>
+        <p className="mb-0" style={{ fontSize: '0.9rem' }}>
+          The useful answer was already free on this page. For private or production repos, request
+          a <strong className="cream">Verified Assessment</strong>.
         </p>
       </div>
     )
@@ -92,10 +95,9 @@ export function LeadForm({
 
   return (
     <form className="panel" onSubmit={onSubmit}>
-      <h3 className="mt-0">Unlock full report context</h3>
-      <p style={{ fontSize: '0.92rem' }}>
-        The first useful answer is free. Optionally leave a work email (max four fields) so we can
-        calibrate demand — no spam, no gated fake score.
+      <h3 className="mt-0">Optional: work context</h3>
+      <p style={{ fontSize: '0.86rem' }}>
+        First useful answer is ungated. Four fields max — helps us calibrate demand, not spam you.
       </p>
       <div className="field">
         <label className="label" htmlFor="lead-email">
@@ -109,11 +111,12 @@ export function LeadForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
+          autoComplete="email"
         />
       </div>
       <div className="field">
         <label className="label" htmlFor="lead-prod">
-          Is this running in production?
+          Running in production?
         </label>
         <select
           id="lead-prod"
@@ -129,7 +132,7 @@ export function LeadForm({
       </div>
       <div className="field">
         <label className="label" htmlFor="lead-band">
-          Monthly infrastructure-cost band
+          Monthly infra cost band
         </label>
         <select
           id="lead-band"
@@ -168,8 +171,8 @@ export function LeadForm({
           {error}
         </p>
       )}
-      <button type="submit" className="btn btn-primary">
-        Save & continue
+      <button type="submit" className="btn btn-primary btn-block">
+        Save context
       </button>
     </form>
   )

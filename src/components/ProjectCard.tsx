@@ -24,7 +24,8 @@ export function ProjectCard({
           type="button"
           className={`chip ${selected ? 'active' : ''}`}
           aria-pressed={selected}
-          onClick={() => {
+          onClick={(ev) => {
+            ev.preventDefault()
             const next = toggleCompare(project.id)
             setSelected(next.includes(project.id))
             onCompareChange?.(next)
@@ -42,19 +43,19 @@ export function ProjectCard({
       <p>{project.description}</p>
       <div className="score-row">
         <span className="score-pill">
-          Upside <strong>{e.rustUpside}</strong>
+          ↑ <strong>{e.rustUpside}</strong>
         </span>
         <span className="score-pill">
-          Feasibility <strong>{e.migrationFeasibility}</strong>
+          feas <strong>{e.migrationFeasibility}</strong>
         </span>
         <span className="score-pill">
-          Opp <strong>{e.opportunityScore}</strong>
+          opp <strong>{e.opportunityScore}</strong>
         </span>
       </div>
       <div className="flex justify-between items-center gap-1">
         <span className="badge badge-rust">{RECOMMENDATION_LABELS[e.recommendation]}</span>
         <span className="meta">
-          P50–P90 {e.p50EngineerMonths}–{e.p90EngineerMonths} eng-mo
+          {e.p50EngineerMonths}–{e.p90EngineerMonths} mo
         </span>
       </div>
     </article>

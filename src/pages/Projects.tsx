@@ -29,34 +29,43 @@ export function Projects() {
   const [compare, setCompare] = useState(() => getCompareSelection())
 
   const filtered = useMemo(() => {
-    return searchProjects(q).filter((p) => {
-      if (category && p.category !== category) return false
-      if (lang && p.primaryLanguage !== lang) return false
-      if (rec && p.estimate.recommendation !== rec) return false
-      if (tier && effortTierFromP90(p.estimate.p90EngineerMonths) !== tier) return false
-      if (p.estimate.rustUpside < minUpside) return false
-      if (p.estimate.migrationFeasibility < minFeas) return false
-      if (p.estimate.opportunityScore < minOpp) return false
-      return true
-    })
+    return searchProjects(q)
+      .filter((p) => {
+        if (category && p.category !== category) return false
+        if (lang && p.primaryLanguage !== lang) return false
+        if (rec && p.estimate.recommendation !== rec) return false
+        if (tier && effortTierFromP90(p.estimate.p90EngineerMonths) !== tier) return false
+        if (p.estimate.rustUpside < minUpside) return false
+        if (p.estimate.migrationFeasibility < minFeas) return false
+        if (p.estimate.opportunityScore < minOpp) return false
+        return true
+      })
+      .sort((a, b) => b.estimate.opportunityScore - a.estimate.opportunityScore)
   }, [q, category, lang, rec, tier, minUpside, minFeas, minOpp])
 
   return (
     <div className="container page-pad">
-      <header className="section-head">
-        <p className="eyebrow">Opportunity universe</p>
-        <h1>100 open-source examples</h1>
-        <p>
-          Searchable directory of precomputed illustrative estimates. Every page is labeled — not
-          an audited live scan.
-        </p>
+      <header className="section-head-row">
+        <div className="section-head">
+          <p className="eyebrow">Opportunity universe</p>
+          <h1>100 open-source examples</h1>
+          <p>
+            Precomputed, labeled illustrative. Sort by Opportunity Score for orientation — not
+            gospel.
+          </p>
+        </div>
+        {compare.length > 0 && (
+          <Link to="/compare" className="btn btn-primary btn-sm">
+            Compare {compare.length}/3
+          </Link>
+        )}
       </header>
 
       <div className="illustrative-banner" role="status">
         <div>
           <strong>Illustrative estimate — not an audited repository scan.</strong>
           <div className="muted" style={{ marginTop: '0.25rem' }}>
-            Showing {filtered.length} of {PROJECTS.length} seed projects.
+            Showing {filtered.length} of {PROJECTS.length}
           </div>
         </div>
       </div>
@@ -122,8 +131,8 @@ export function Projects() {
             </option>
           ))}
         </select>
-        <label className="mono muted" style={{ fontSize: '0.8rem' }}>
-          Upside ≥{' '}
+        <label className="mono muted" style={{ fontSize: '0.75rem' }}>
+          Upside ≥
           <input
             type="number"
             min={0}
@@ -131,11 +140,11 @@ export function Projects() {
             value={minUpside}
             onChange={(e) => setMinUpside(Number(e.target.value) || 0)}
             className="input"
-            style={{ width: 72, display: 'inline-block', padding: '0.35rem' }}
+            style={{ width: 64, display: 'inline-block', padding: '0.3rem', marginLeft: 4 }}
           />
         </label>
-        <label className="mono muted" style={{ fontSize: '0.8rem' }}>
-          Feas ≥{' '}
+        <label className="mono muted" style={{ fontSize: '0.75rem' }}>
+          Feas ≥
           <input
             type="number"
             min={0}
@@ -143,11 +152,11 @@ export function Projects() {
             value={minFeas}
             onChange={(e) => setMinFeas(Number(e.target.value) || 0)}
             className="input"
-            style={{ width: 72, display: 'inline-block', padding: '0.35rem' }}
+            style={{ width: 64, display: 'inline-block', padding: '0.3rem', marginLeft: 4 }}
           />
         </label>
-        <label className="mono muted" style={{ fontSize: '0.8rem' }}>
-          Opp ≥{' '}
+        <label className="mono muted" style={{ fontSize: '0.75rem' }}>
+          Opp ≥
           <input
             type="number"
             min={0}
@@ -155,7 +164,7 @@ export function Projects() {
             value={minOpp}
             onChange={(e) => setMinOpp(Number(e.target.value) || 0)}
             className="input"
-            style={{ width: 72, display: 'inline-block', padding: '0.35rem' }}
+            style={{ width: 64, display: 'inline-block', padding: '0.3rem', marginLeft: 4 }}
           />
         </label>
         <div className="flex gap-1" style={{ marginLeft: 'auto' }}>
@@ -173,11 +182,6 @@ export function Projects() {
           >
             Table
           </button>
-          {compare.length > 0 && (
-            <Link to="/compare" className="btn btn-sm btn-secondary">
-              Compare ({compare.length}/3)
-            </Link>
-          )}
         </div>
       </div>
 
@@ -229,9 +233,9 @@ export function Projects() {
       )}
 
       {filtered.length === 0 && (
-        <p className="muted" style={{ marginTop: '2rem' }}>
-          No projects match these filters.
-        </p>
+        <div className="panel" style={{ marginTop: '1.25rem', textAlign: 'center' }}>
+          <p className="mb-0">No projects match. Loosen filters or clear search.</p>
+        </div>
       )}
     </div>
   )

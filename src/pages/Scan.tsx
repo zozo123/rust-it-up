@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ensureScanProgress, STATUS_LABELS } from '../lib/mockScan'
 import type { ScanJob, ScanStatus } from '../types'
@@ -17,23 +17,50 @@ export function Scan() {
   const { scanId } = useParams()
   const navigate = useNavigate()
   const [scan, setScan] = useState<ScanJob | null | undefined>(undefined)
+  const [elapsed, setElapsed] = useState(0)
 
   useEffect(() => {
     if (!scanId) return
     ensureScanProgress(scanId)
     setScan(getScan(scanId) ?? null)
 
-    const id = window.setInterval(() => {
+    const poll = window.setInterval(() => {
       const s = getScan(scanId)
       setScan(s ?? null)
       if (s?.status === 'complete') {
-        window.clearInterval(id)
-        navigate(`/r/${s.owner}/${s.repo}`, { replace: true })
+        window.clearInterval(poll)
+        window.setTimeout(() => {
+          navigate(`/r/${s.owner}/${s.repo}`, { replace: true })
+        }, 450)
       }
-    }, 400)
+    }, 350)
 
-    return () => window.clearInterval(id)
+    return () => window.clearInterval(poll)
   }, [scanId, navigate])
+
+  useEffect(() => {
+    if (!scan?.startedAt || scan.status === 'complete' || scan.status === 'failed') return
+    const start = new Date(scan.startedAt).getTime()
+    const t = window.setInterval(() => {
+      setElapsed(Math.floor((Date.now() - start) / 100) / 10)
+    }, 100)
+    return () => window.clearInterval(t)
+  }, [scan?.startedAt, scan?.status])
+
+  const currentIdx = useMemo(() => {
+    if (!scan) return 0
+    if (scan.status === 'failed') return 0
+    if (scan.status === 'complete') return FLOW.length - 1
+    return Math.max(0, FLOW.indexOf(scan.status))
+  }, [scan])
+
+  const pct = scan
+    ? scan.status === 'complete'
+      ? 100
+      : scan.status === 'failed'
+        ? 0
+        : Math.round(((currentIdx + 0.35) / (FLOW.length - 1)) * 100)
+    : 0
 
   if (scan === undefined) {
     return (
@@ -46,9 +73,12 @@ export function Scan() {
   if (scan === null) {
     return (
       <div className="container page-pad">
-        <div className="panel" style={{ maxWidth: 520 }}>
-          <h1>Scan not found</h1>
-          <p>This job is not in local storage (refresh-safe only for scans started in this browser).</p>
+        <div className="panel" style={{ maxWidth: 480, margin: '0 auto' }}>
+          <h1 style={{ fontSize: '1.4rem' }}>Scan not found</h1>
+          <p>
+            Jobs persist in this browser only (refresh-safe locally). Production would use durable
+            scan IDs + Realtime.
+          </p>
           <Link to="/" className="btn btn-primary">
             Start a new analysis
           </Link>
@@ -57,55 +87,83 @@ export function Scan() {
     )
   }
 
-  const currentIdx = FLOW.indexOf(scan.status === 'failed' ? 'queued' : scan.status)
-
   return (
     <div className="container page-pad">
-      <div className="scan-status panel panel-raised">
-        <p className="eyebrow">Scan job</p>
-        <h1 className="mt-0" style={{ fontSize: '1.6rem' }}>
-          {scan.owner}/{scan.repo}
-        </h1>
-        <p className="mono muted" style={{ fontSize: '0.85rem' }}>
-          id {scan.id.slice(0, 8)}… · sha {scan.commitSha.slice(0, 12)} · {scan.scannerVersion}
-        </p>
-        <p>
-          Live progress with local persistence. Refresh-safe in this browser. Production would use
-          Supabase Realtime or polling with exponential backoff.
-        </p>
+      <div className="scan-status">
+        <div className="product-window">
+          <div className="product-window-bar">
+            <div className="flex items-center gap-1">
+              <div className="cmd-dots" aria-hidden>
+                <span />
+                <span />
+                <span />
+              </div>
+              <span className="cmd-title">scan · {scan.scannerVersion}</span>
+            </div>
+            <span className="mono muted" style={{ fontSize: '0.72rem' }}>
+              {elapsed.toFixed(1)}s
+            </span>
+          </div>
+          <div className="product-window-body">
+            <p className="eyebrow" style={{ marginBottom: '0.35rem' }}>
+              Job in progress
+            </p>
+            <h1 className="mt-0" style={{ fontSize: '1.45rem' }}>
+              {scan.owner}/{scan.repo}
+            </h1>
+            <p className="mono muted" style={{ fontSize: '0.78rem', marginBottom: '0.75rem' }}>
+              {scan.id.slice(0, 8)}… · sha {scan.commitSha.slice(0, 12)}
+            </p>
 
-        {scan.status === 'failed' ? (
-          <div className="illustrative-banner" role="alert">
-            <div>
-              <strong>Scan failed</strong>
+            <div className="term-block">
               <div>
-                {scan.failureCode}: {scan.failureMessage}
+                <span className="dim">$</span> rust-it-up scan {scan.owner}/{scan.repo}
+              </div>
+              <div>
+                <span className="hl">status</span> {STATUS_LABELS[scan.status].toLowerCase()}
+              </div>
+              <div>
+                <span className="dim">note</span> static only · no code execution
               </div>
             </div>
-          </div>
-        ) : (
-          <ul className="progress-list">
-            {FLOW.filter((s) => s !== 'complete').map((status, i) => {
-              let cls = ''
-              if (scan.status === 'complete' || i < currentIdx) cls = 'done'
-              else if (i === currentIdx) cls = 'current'
-              return (
-                <li key={status} className={cls}>
-                  <span className="dot" aria-hidden />
-                  {STATUS_LABELS[status]}
-                </li>
-              )
-            })}
-            <li className={scan.status === 'complete' ? 'done current' : ''}>
-              <span className="dot" aria-hidden />
-              {STATUS_LABELS.complete}
-            </li>
-          </ul>
-        )}
 
-        <p className="trust-line" style={{ marginTop: '1.5rem' }}>
-          Static analysis first. We do not execute public repository code.
-        </p>
+            <div className="scan-meter" aria-hidden>
+              <span style={{ width: `${pct}%` }} />
+            </div>
+            <p className="mono muted" style={{ fontSize: '0.72rem', marginTop: '0.4rem' }}>
+              {pct}% · refresh-safe in this browser
+            </p>
+
+            {scan.status === 'failed' ? (
+              <div className="illustrative-banner" role="alert" style={{ marginTop: '1rem' }}>
+                <div>
+                  <strong>Scan failed</strong>
+                  <div>
+                    {scan.failureCode}: {scan.failureMessage}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <ul className="progress-list">
+                {FLOW.filter((s) => s !== 'complete').map((status, i) => {
+                  let cls = ''
+                  if (scan.status === 'complete' || i < currentIdx) cls = 'done'
+                  else if (i === currentIdx) cls = 'current'
+                  return (
+                    <li key={status} className={cls}>
+                      <span className="dot" aria-hidden />
+                      {STATUS_LABELS[status]}
+                    </li>
+                  )
+                })}
+                <li className={scan.status === 'complete' ? 'done current' : ''}>
+                  <span className="dot" aria-hidden />
+                  {STATUS_LABELS.complete}
+                </li>
+              </ul>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

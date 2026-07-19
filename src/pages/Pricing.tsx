@@ -29,70 +29,91 @@ export function Pricing() {
   return (
     <div className="container page-pad">
       <header className="section-head">
-        <p className="eyebrow">Simple launch pricing</p>
+        <p className="eyebrow">No seat math</p>
         <h1>Pricing</h1>
-        <p>Two offers. No seat gymnastics. Migration pilots are quote-only.</p>
+        <p>
+          Two offers. Free public scorecard. Paid human-reviewed assessment. Pilots are quote-only —
+          we refuse a fake “package” price for work that scales with ABI surface.
+        </p>
       </header>
 
       <div className="pricing-grid">
         <article className="price-card">
           <span className="badge">Public</span>
-          <h2 style={{ marginTop: '0.75rem' }}>Free public scorecard</h2>
+          <h2 style={{ marginTop: '0.7rem', fontSize: '1.25rem' }}>Free public scorecard</h2>
           <div className="price">$0</div>
           <ul>
-            <li>Paste a public GitHub URL</li>
-            <li>Rust Upside, Feasibility, Commercial Signal</li>
-            <li>Strategy recommendation & effort ranges</li>
-            <li>Safest first migration slice</li>
+            <li>Public GitHub URL → scores + strategy</li>
+            <li>P50/P90 effort + first slice</li>
             <li>100 illustrative example reports</li>
+            <li>No credit card, no fake trial</li>
           </ul>
-          <Link to="/#analyze" className="btn btn-secondary">
+          <Link to="/#analyze" className="btn btn-secondary btn-block">
             Analyze a public repo
           </Link>
         </article>
 
         <article className="price-card featured">
-          <span className="badge badge-rust">Most serious</span>
-          <h2 style={{ marginTop: '0.75rem' }}>Verified Assessment</h2>
+          <span className="badge badge-rust">Serious teams</span>
+          <h2 style={{ marginTop: '0.7rem', fontSize: '1.25rem' }}>Verified Assessment</h2>
           <div className="price">from $2,500</div>
           <ul>
             <li>Human review of findings & narrative</li>
             <li>Private repository support</li>
             <li>Architecture map</li>
             <li>Calibrated effort range</li>
-            <li>Benchmark plan</li>
-            <li>60-minute readout</li>
+            <li>Benchmark plan + 60-min readout</li>
           </ul>
-          <a href="#request" className="btn btn-primary" onClick={() => setKind('verified_assessment')}>
+          <a
+            href="#request"
+            className="btn btn-primary btn-block"
+            onClick={() => setKind('verified_assessment')}
+          >
             Request assessment
           </a>
         </article>
       </div>
 
-      <section className="panel" style={{ marginTop: '1.5rem', maxWidth: 860 }}>
-        <h2 className="mt-0">Migration pilot</h2>
-        <p>
-          Hands-on first slice with your team: boundary selection, parity harness, and dual-ship
-          plan. <strong className="cream">Contact for a quote</strong> — we do not publish a fixed
-          price because scope varies by ABI surface and compliance needs.
-        </p>
-        <a href="#request" className="btn btn-secondary" onClick={() => setKind('migration_pilot')}>
-          Contact about a pilot
-        </a>
+      <section className="panel" style={{ marginTop: '1.15rem', maxWidth: 880 }}>
+        <div className="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <h2 className="mt-0" style={{ fontSize: '1.2rem' }}>
+              Migration pilot
+            </h2>
+            <p className="mb-0" style={{ maxWidth: '52ch' }}>
+              Hands-on first slice: boundary selection, parity harness, dual-ship plan.{' '}
+              <strong className="cream">Contact for a quote</strong> — scope varies too much for a
+              sticker price.
+            </p>
+          </div>
+          <a
+            href="#request"
+            className="btn btn-secondary"
+            onClick={() => setKind('migration_pilot')}
+          >
+            Contact about a pilot
+          </a>
+        </div>
       </section>
 
-      <section id="request" className="panel panel-raised" style={{ marginTop: '1.5rem', maxWidth: 560 }}>
-        <h2 className="mt-0">Request form</h2>
+      <section
+        id="request"
+        className="panel panel-raised"
+        style={{ marginTop: '1.15rem', maxWidth: 520 }}
+      >
+        <h2 className="mt-0" style={{ fontSize: '1.2rem' }}>
+          Request
+        </h2>
         {sent ? (
           <p className="mb-0">
-            Thanks — request stored locally in this demo. On a full deploy this hits Supabase{' '}
-            <code>leads</code> and notifies the team.
+            Saved locally in this demo. On a full deploy this writes to Supabase <code>leads</code>{' '}
+            and pings the team.
           </p>
         ) : (
           <form onSubmit={onSubmit}>
             <div className="field">
               <label className="label" htmlFor="req-kind">
-                Request type
+                Type
               </label>
               <select
                 id="req-kind"
@@ -115,6 +136,7 @@ export function Pricing() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
               />
             </div>
             <div className="field">
@@ -126,6 +148,7 @@ export function Pricing() {
                 className="input"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
+                autoComplete="organization"
               />
             </div>
             <div className="field">
@@ -140,7 +163,7 @@ export function Pricing() {
                 onChange={(e) => setNote(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary btn-block">
               Submit request
             </button>
           </form>
