@@ -17,7 +17,12 @@ function readJson<T>(key: string, fallback: T): T {
 }
 
 function writeJson<T>(key: string, value: T): void {
-  localStorage.setItem(key, JSON.stringify(value))
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch {
+    // Quota exceeded, private-mode, or storage blocked — degrade quietly so
+    // scan timers and lead submissions never throw into timers/event handlers.
+  }
 }
 
 export function listScans(): ScanJob[] {

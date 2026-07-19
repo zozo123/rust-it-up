@@ -15,7 +15,7 @@
   --rust-glow-strong: rgba(196, 92, 38, 0.32);
   --cream: #f0ebe3;
   --cream-dim: #b5aea2;
-  --cream-mute: #7d776d;
+  --cream-mute: #9a948a;
   --surface: #0e141e;
   --surface-2: #141c29;
   --surface-3: #1a2434;
@@ -1403,6 +1403,9 @@ table.data a:hover { color: var(--rust-hot); }
   left: 0.5rem;
   top: 0.5rem;
 }
+
+/* Programmatic route-change focus target — no ring on the whole main region */
+#main:focus { outline: none; }
 
 /* Page enter */
 @keyframes fade-up {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 
 const nav = [
@@ -12,10 +12,19 @@ export function Layout() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
   const isHome = location.pathname === '/' || location.pathname === ''
+  const mainRef = useRef<HTMLElement>(null)
+  const firstRender = useRef(true)
 
   useEffect(() => {
     setOpen(false)
     window.scrollTo(0, 0)
+    // Move focus to the main region on client-side navigation so keyboard and
+    // screen-reader users are placed on the new page (skip the initial load).
+    if (firstRender.current) {
+      firstRender.current = false
+      return
+    }
+    mainRef.current?.focus()
   }, [location.pathname])
 
   return (
@@ -70,7 +79,7 @@ export function Layout() {
         </div>
       </header>
 
-      <main id="main" className="page-enter" key={location.pathname}>
+      <main id="main" className="page-enter" key={location.pathname} ref={mainRef} tabIndex={-1}>
         <Outlet />
       </main>
 

@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { getProjectById } from '../data/projects'
 import { getCompareSelection, setCompareSelection, toggleCompare } from '../lib/storage'
+import { useDocumentTitle } from '../lib/useDocumentTitle'
 import { RECOMMENDATION_LABELS, quadrantLabel, quadrantOf } from '../types'
 
 export function Compare() {
+  useDocumentTitle('Compare repositories')
   const [ids, setIds] = useState(() => getCompareSelection())
   const projects = ids.map((id) => getProjectById(id)).filter(Boolean)
 

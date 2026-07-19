@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useDocumentTitle } from '../lib/useDocumentTitle'
 
 export function Methodology() {
+  useDocumentTitle('Methodology')
   return (
     <div className="container page-pad">
       <header className="section-head">

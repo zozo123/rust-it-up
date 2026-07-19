@@ -43,7 +43,8 @@ export function ProjectCard({
       <p>{project.description}</p>
       <div className="score-row">
         <span className="score-pill">
-          ↑ <strong>{e.rustUpside}</strong>
+          <span className="sr-only">Rust upside</span>
+          <span aria-hidden>↑</span> <strong>{e.rustUpside}</strong>
         </span>
         <span className="score-pill">
           feas <strong>{e.migrationFeasibility}</strong>

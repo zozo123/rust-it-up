@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { LeadForm } from '../components/LeadForm'
 import { QuadrantMap } from '../components/QuadrantMap'
@@ -15,12 +15,15 @@ import {
 
 export function Report() {
   const { owner = '', repo = '' } = useParams()
-  const project = resolveProject(owner, repo)
+  const project = useMemo(() => resolveProject(owner, repo), [owner, repo])
   const e = project.estimate
   const [copied, setCopied] = useState(false)
   const quadrant = quadrantOf(e.rustUpside, e.migrationFeasibility)
 
   useEffect(() => {
+    const DEFAULT_TITLE = 'Rust It Up — Should this repo be rewritten in Rust?'
+    const DEFAULT_DESC =
+      'Should this repo be rewritten in Rust? Paste a GitHub URL. Get the business case, effort range, and safest first migration slice.'
     document.title = `How long would it take to rewrite ${project.repo} in Rust? · Rust It Up`
     const desc = `${RECOMMENDATION_LABELS[e.recommendation]}. P50–P90 ${e.p50EngineerMonths}–${e.p90EngineerMonths} eng-mo. Illustrative estimate.`
     let meta = document.querySelector('meta[name="description"]')
@@ -29,9 +32,11 @@ export function Report() {
       meta.setAttribute('name', 'description')
       document.head.appendChild(meta)
     }
+    const prevDesc = meta.getAttribute('content')
     meta.setAttribute('content', desc)
     return () => {
-      document.title = 'Rust It Up — Should this repo be rewritten in Rust?'
+      document.title = DEFAULT_TITLE
+      meta?.setAttribute('content', prevDesc ?? DEFAULT_DESC)
     }
   }, [project, e])
 

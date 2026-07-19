@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ProjectCard } from '../components/ProjectCard'
 import { CATEGORIES, LANGUAGES, PROJECTS, searchProjects } from '../data/projects'
 import { getCompareSelection } from '../lib/storage'
+import { useDocumentTitle } from '../lib/useDocumentTitle'
 import {
   EFFORT_TIER_LABELS,
   RECOMMENDATION_LABELS,
@@ -17,6 +18,7 @@ const RECS = Object.keys(RECOMMENDATION_LABELS) as Recommendation[]
 const TIERS = Object.keys(EFFORT_TIER_LABELS) as EffortTier[]
 
 export function Projects() {
+  useDocumentTitle('100 open-source migration examples')
   const [q, setQ] = useState('')
   const [category, setCategory] = useState('')
   const [lang, setLang] = useState('')

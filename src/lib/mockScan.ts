@@ -164,11 +164,40 @@ export function startScan(parsed: ParsedGitHubUrl): ScanJob {
   return job
 }
 
+/** Scans with an in-flight timer chain — prevents duplicate chains (double
+ *  scheduling from startScan + ensureScanProgress, and StrictMode remounts)
+ *  from racing the same job and advancing it multiple steps per tick. */
+const activeChains = new Set<string>()
+
+/** Deterministically fail a small slice (~1/12) of unlisted repos so the
+ *  failure UI and the admin "Failures" metric reflect a reachable state.
+ *  Seed repos (and therefore every sample chip) always succeed. */
+function isSyntheticFailure(owner: string, repo: string): boolean {
+  if (getProject(owner, repo)) return false
+  return hash(`fail:${owner}/${repo}`) % 12 === 0
+}
+
 function scheduleAdvance(scanId: string): void {
+  if (activeChains.has(scanId)) return
+  activeChains.add(scanId)
+  const stop = () => activeChains.delete(scanId)
+
   const tick = () => {
     const scan = getScan(scanId)
-    if (!scan) return
-    if (scan.status === 'complete' || scan.status === 'failed') return
+    if (!scan) return stop()
+    if (scan.status === 'complete' || scan.status === 'failed') return stop()
+
+    if (scan.status === 'inspecting_snapshot' && isSyntheticFailure(scan.owner, scan.repo)) {
+      saveScan({
+        ...scan,
+        status: 'failed',
+        completedAt: new Date().toISOString(),
+        failureCode: 'snapshot_unavailable',
+        failureMessage:
+          'Mock worker could not resolve a default-branch snapshot for this repository.',
+      })
+      return stop()
+    }
 
     const idx = STATUS_FLOW.indexOf(scan.status)
     const next = STATUS_FLOW[Math.min(idx + 1, STATUS_FLOW.length - 1)]
@@ -181,6 +210,8 @@ function scheduleAdvance(scanId: string): void {
 
     if (next !== 'complete' && next !== 'failed') {
       window.setTimeout(tick, STATUS_MS[next] || 800)
+    } else {
+      stop()
     }
   }
   window.setTimeout(tick, STATUS_MS.queued)

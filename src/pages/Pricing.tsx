@@ -1,8 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { saveLead, uid } from '../lib/storage'
+import { useDocumentTitle } from '../lib/useDocumentTitle'
 
 export function Pricing() {
+  useDocumentTitle('Pricing')
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('')
   const [note, setNote] = useState('')
