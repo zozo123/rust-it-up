@@ -1,0 +1,15 @@
+[package]
+name = "rust-at-scale"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "A real Ratatui terminal animation for Incredibuild x JetBrains, 8 September 2026"
+
+[dependencies]
+ratatui = "=0.30.2"
+crossterm = "=0.29.0"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
