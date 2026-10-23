@@ -25,9 +25,6 @@ export function Admin() {
   const stats = useMemo(() => {
     const complete = scans.filter((s) => s.status === 'complete').length
     const failed = scans.filter((s) => s.status === 'failed').length
-    const assessments = leads.filter(
-      (l) => l.requestType === 'verified_assessment' || l.requestType === 'migration_pilot',
-    ).length
     const unlocks = leads.filter((l) => l.requestType === 'email_unlock').length
     const prod = signals.filter((s) => s.signalType === 'uses_in_production').length
     return {
@@ -36,7 +33,6 @@ export function Admin() {
       failed,
       leads: leads.length,
       unlocks,
-      assessments,
       prod,
       signals: signals.length,
     }
@@ -126,10 +122,6 @@ export function Admin() {
         <div className="stat">
           <div className="n">{stats.unlocks}</div>
           <div className="l">Email unlocks</div>
-        </div>
-        <div className="stat">
-          <div className="n">{stats.assessments}</div>
-          <div className="l">Assessment requests</div>
         </div>
         <div className="stat">
           <div className="n">{stats.prod}</div>

@@ -1118,46 +1118,6 @@ table.data a:hover { color: var(--rust-hot); }
   transition: width 0.4s var(--ease);
 }
 
-/* Pricing */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  max-width: 880px;
-}
-.price-card {
-  padding: 1.5rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-sm);
-  transition: border-color 0.15s, transform 0.15s;
-}
-.price-card:hover { transform: translateY(-1px); }
-.price-card.featured {
-  border-color: var(--rust);
-  box-shadow: var(--shadow-glow);
-  background: linear-gradient(165deg, rgba(196, 92, 38, 0.08), var(--surface) 50%);
-}
-.price-card .price {
-  font-family: var(--font-mono);
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--cream);
-  margin: 0.4rem 0 1rem;
-  letter-spacing: -0.03em;
-}
-.price-card ul {
-  margin: 0 0 1.35rem;
-  padding-left: 1.05rem;
-  color: var(--cream-dim);
-  flex: 1;
-  font-size: 0.9rem;
-}
-.price-card li { margin-bottom: 0.4rem; }
-
 /* Filters */
 .toolbar {
   display: flex;
@@ -1355,7 +1315,6 @@ table.data a:hover { color: var(--rust-hot); }
 @media (max-width: 900px) {
   .hero-grid,
   .report-grid,
-  .pricing-grid,
   .footer-grid,
   .anti-rewrite {
     grid-template-columns: 1fr;
