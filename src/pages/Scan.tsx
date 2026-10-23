@@ -15,7 +15,7 @@ const FLOW: ScanStatus[] = [
 ]
 
 export function Scan() {
-  useDocumentTitle('Analyzing repository')
+  useDocumentTitle('Simulated scan')
   const { scanId } = useParams()
   const navigate = useNavigate()
   const [scan, setScan] = useState<ScanJob | null | undefined>(undefined)
