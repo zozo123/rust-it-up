@@ -86,8 +86,7 @@ export function LeadForm({
         </div>
         <h3 className="mt-0">Thanks — context noted</h3>
         <p className="mb-0" style={{ fontSize: '0.9rem' }}>
-          The useful answer was already free on this page. For private or production repos, request
-          a <strong className="cream">Verified Assessment</strong>.
+          Saved only in this browser. This prototype has no backend; nothing was sent.
         </p>
       </div>
     )
@@ -97,7 +96,7 @@ export function LeadForm({
     <form className="panel" onSubmit={onSubmit}>
       <h3 className="mt-0">Optional: work context</h3>
       <p style={{ fontSize: '0.86rem' }}>
-        First useful answer is ungated. Four fields max — helps us calibrate demand, not spam you.
+        Prototype form: answers are saved only in this browser (localStorage); nothing is sent.
       </p>
       <div className="field">
         <label className="label" htmlFor="lead-email">

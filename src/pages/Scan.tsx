@@ -110,13 +110,13 @@ export function Scan() {
           </div>
           <div className="product-window-body">
             <p className="eyebrow" style={{ marginBottom: '0.35rem' }}>
-              Job in progress
+              Simulated scan
             </p>
             <h1 className="mt-0" style={{ fontSize: '1.45rem' }}>
               {scan.owner}/{scan.repo}
             </h1>
             <p className="mono muted" style={{ fontSize: '0.78rem', marginBottom: '0.75rem' }}>
-              {scan.id.slice(0, 8)}… · sha {scan.commitSha.slice(0, 12)}
+              {scan.id.slice(0, 8)}… · commit not scanned (illustrative)
             </p>
 
             <div className="term-block">
@@ -127,7 +127,7 @@ export function Scan() {
                 <span className="hl">status</span> {STATUS_LABELS[scan.status].toLowerCase()}
               </div>
               <div>
-                <span className="dim">note</span> static only · no code execution
+                <span className="dim">note</span> simulated · nothing is fetched or analyzed
               </div>
             </div>
 

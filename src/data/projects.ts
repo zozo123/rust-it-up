@@ -287,7 +287,7 @@ const FEATURED: Project[] = [
       ],
       comparableRust: ['jaq', 'jql', 'rq'],
     }),
-    { featured: true, licenseSpdx: 'MIT', sha: 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678' },
+    { featured: true, licenseSpdx: 'MIT' },
   ),
   p(
     'ninja-build',

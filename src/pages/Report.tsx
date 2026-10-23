@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { LeadForm } from '../components/LeadForm'
 import { QuadrantMap } from '../components/QuadrantMap'
 import { ScoreBars, ScoreGauges } from '../components/ScoreGauges'
-import { resolveProject } from '../lib/mockScan'
+import { isIllustrativeModel, resolveProject } from '../lib/mockScan'
 import {
   RECOMMENDATION_LABELS,
   VALUE_LABELS,
@@ -21,9 +21,9 @@ export function Report() {
   const quadrant = quadrantOf(e.rustUpside, e.migrationFeasibility)
 
   useEffect(() => {
-    const DEFAULT_TITLE = 'Should this repo be rewritten in Rust? · Rust It Up'
+    const DEFAULT_TITLE = 'Rust It Up: Rust rewrite scorecards (prototype) · Yossi Eliaz'
     const DEFAULT_DESC =
-      'Paste a public GitHub repo. Get a clear Rust migration verdict, P50–P90 effort range, and safest first slice.'
+      'Prototype by Yossi Eliaz: paste a public GitHub repo to see an illustrative Rust-migration scorecard. The scanner is mocked; estimates are not audited.'
     document.title = `How long would it take to rewrite ${project.repo} in Rust? · Rust It Up`
     const desc = `${RECOMMENDATION_LABELS[e.recommendation]}. P50–P90 ${e.p50EngineerMonths}–${e.p90EngineerMonths} eng-mo. Illustrative estimate.`
     let meta = document.querySelector('meta[name="description"]')
@@ -87,9 +87,6 @@ export function Report() {
           <button type="button" className="btn btn-secondary btn-sm" onClick={copyLink}>
             {copied ? 'Copied' : 'Copy link'}
           </button>
-          <Link to="/pricing" className="btn btn-primary btn-sm">
-            Verified
-          </Link>
         </div>
       </div>
 
@@ -112,7 +109,13 @@ export function Report() {
             {project.canonicalUrl.replace('https://', '')}
           </a>
           {' · '}
-          {project.defaultBranch} @ <code>{project.latestSha.slice(0, 12)}</code>
+          {isIllustrativeModel(e.modelVersion) ? (
+            'commit: not scanned (illustrative)'
+          ) : (
+            <>
+              {project.defaultBranch} @ <code>{project.latestSha.slice(0, 12)}</code>
+            </>
+          )}
           {' · '}
           {project.primaryLanguage}
           {project.licenseSpdx ? ` · ${project.licenseSpdx}` : ''}
@@ -318,16 +321,6 @@ export function Report() {
           </div>
 
           <LeadForm projectKey={project.id} requestType="email_unlock" />
-
-          <section className="panel panel-rust">
-            <h3 className="mt-0">Private or production?</h3>
-            <p style={{ fontSize: '0.9rem' }}>
-              Human review, architecture map, calibrated range, benchmark plan, 60-minute readout.
-            </p>
-            <Link to="/pricing" className="btn btn-primary btn-block">
-              Verified Assessment · from $2,500
-            </Link>
-          </section>
 
           <section className="panel">
             <h3 className="mt-0">Share</h3>

@@ -15,10 +15,12 @@ export function HomeV2() {
     <>
       <section className="hero hero-v4">
         <div className="container hero-v4-inner">
-          <p className="hero-v4-kicker">Rust migration verdicts</p>
+          <p className="hero-v4-kicker">Prototype · illustrative estimates</p>
           <h1>Know if a Rust rewrite is worth it.</h1>
           <p className="hero-v4-lead">
-            Paste a public GitHub repo. Get the verdict, effort range, and safest first slice.
+            Prototype by <a href="https://zozo123.github.io/">Yossi Eliaz</a>. Paste a public GitHub
+            repo to see an illustrative Rust-migration scorecard. The scanner is mocked: repos outside
+            the 100 seeded examples get placeholder scores, not an analysis.
           </p>
           <UrlForm large autoFocus />
         </div>

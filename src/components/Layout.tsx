@@ -5,7 +5,6 @@ import { LogoMark } from './LogoMark'
 const nav = [
   { to: '/projects', label: 'Examples' },
   { to: '/methodology', label: 'Methodology' },
-  { to: '/pricing', label: 'Pricing' },
 ]
 
 export function Layout() {
@@ -102,18 +101,20 @@ export function Layout() {
                 <LogoMark size={28} />
                 <span className="logo-text">Rust It <span>Up</span></span>
               </Link>
-              <p>Decide before you rewrite. Static analysis only.</p>
+              <p>Prototype. Estimates are illustrative; no repository is analyzed.</p>
             </div>
             <nav className="footer-links" aria-label="Footer">
               <Link to="/projects">100 examples</Link>
               <Link to="/methodology">Methodology</Link>
-              <Link to="/pricing">Pricing</Link>
               <Link to="/compare">Compare</Link>
               <a href="https://github.com/zozo123/rust-it-up" target="_blank" rel="noreferrer">Source</a>
             </nav>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} Rust It Up</span>
+            <span>
+              A prototype by <a href="https://zozo123.github.io/">Yossi Eliaz</a> ·{' '}
+              <a href="https://yossieliaz.netlify.app/">yossieliaz.netlify.app</a>
+            </span>
             <span>Illustrative estimates · no code execution</span>
           </div>
         </div>

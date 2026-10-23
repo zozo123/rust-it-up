@@ -1,13 +1,10 @@
 # Rust It Up
 
-[![CI](https://github.com/zozo123/rust-it-up/actions/workflows/ci.yml/badge.svg)](https://github.com/zozo123/rust-it-up/actions/workflows/ci.yml)
-[![Live site](https://img.shields.io/badge/live-rust--it--up-ec7d3e)](https://zozo123.github.io/rust-it-up/)
-
-> Should this repo be rewritten in Rust?
-
-Paste a public GitHub repo. Get a clear verdict, a P50–P90 effort range, and the safest first migration slice. Every scorecard has a shareable URL.
+A prototype web app by [Yossi Eliaz](https://zozo123.github.io/) for engineers weighing a Rust rewrite: paste a public GitHub repo and it shows an illustrative scorecard (verdict, P50–P90 effort range, suggested first slice). The scanner is mocked and the estimates are not audited.
 
 **Live (GitHub Pages):** https://zozo123.github.io/rust-it-up/
+
+Status: prototype. The 100 seeded reports are illustrative estimates, not scans; any other repo gets deterministic placeholder scores behind a simulated progress screen. No repository is fetched or analyzed.
 
 ## Product principles
 
@@ -39,10 +36,9 @@ Lovable/Supabase can become the product shell later. The UI boundary is explicit
 | `/projects` | Searchable 100-example directory + compare selection |
 | `/compare` | Up to 3-way comparison |
 | `/methodology` | Scoring & limitations |
-| `/pricing` | Free scorecard + Verified Assessment from $2,500 |
 | `/admin` | Demo dashboard (scans, leads, signals) |
 
-**Admin demo password:** `rustitup` (local only — replace with Supabase Auth).
+`/admin` is a client-side mock: it reads only this browser's `localStorage`, and nothing is stored server-side. Its demo password (`rustitup`) is checked in the browser and is not a security control.
 
 ## Develop
 
@@ -78,4 +74,4 @@ Every pull request runs lint, TypeScript, and the production build. Pushes to `m
 
 ## License
 
-MIT — demo content and estimates are illustrative only.
+[MIT](LICENSE). Demo content and estimates are illustrative only.

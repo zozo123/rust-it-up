@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const DEFAULT_TITLE = 'Should this repo be rewritten in Rust? · Rust It Up'
+const DEFAULT_TITLE = 'Rust It Up: Rust rewrite scorecards (prototype) · Yossi Eliaz'
 
 /** Set the document title for a route and restore the default on unmount. */
 export function useDocumentTitle(title: string): void {

@@ -68,6 +68,12 @@ function stamp(template, { title, description, path }) {
   html = setMeta(html, 'property', 'og:url', url)
   html = setMeta(html, 'name', 'twitter:title', title)
   html = setMeta(html, 'name', 'twitter:description', description)
+  // JSON-LD: describe this route's WebPage instead of the homepage's.
+  const ld = (v) => JSON.stringify(v).replace(/</g, '\\u003c')
+  html = html.replace(/("@type": "WebPage",\s*"name": )"[^"]*"/, (_m, p1) => p1 + ld(title))
+  html = html.replace(/("headline": )"[^"]*"/, (_m, p1) => p1 + ld(title))
+  html = html.replace(/("headline": [^\n]*\n\s*"description": )"[^"]*"/, (_m, p1) => p1 + ld(description))
+  html = html.replace(`"url": "${SITE}/"`, () => `"url": ${ld(url)}`)
   return html
 }
 
@@ -99,11 +105,6 @@ const staticRoutes = [
     title: 'Methodology',
     description:
       'How Rust It Up scores upside, feasibility, and commercial signal — static analysis first, ranges over false precision.',
-  },
-  {
-    path: '/pricing',
-    title: 'Pricing',
-    description: 'Free public scorecards. Verified Assessments from $2,500 add human architecture review and a benchmark plan.',
   },
 ]
 

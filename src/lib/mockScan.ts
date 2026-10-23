@@ -5,6 +5,9 @@ import type { ParsedGitHubUrl } from './github'
 
 export const SCANNER_VERSION = 'mock-scanner-v1'
 
+/** Placeholder commit for repos that were never fetched (no real SHA exists). */
+const ILLUSTRATIVE_SHA = 'illustrative'.padEnd(40, '0')
+
 const STATUS_FLOW: ScanStatus[] = [
   'queued',
   'fetching_metadata',
@@ -26,10 +29,10 @@ const STATUS_MS: Record<ScanStatus, number> = {
 
 export const STATUS_LABELS: Record<ScanStatus, string> = {
   queued: 'Queued',
-  fetching_metadata: 'Fetching metadata',
-  inspecting_snapshot: 'Inspecting repository snapshot',
-  scoring_paths: 'Scoring migration paths',
-  generating_report: 'Generating report',
+  fetching_metadata: 'Simulated: fetching metadata',
+  inspecting_snapshot: 'Simulated: inspecting repository snapshot',
+  scoring_paths: 'Simulated: scoring migration paths',
+  generating_report: 'Simulated: generating report',
   complete: 'Complete',
   failed: 'Failed',
 }
@@ -56,7 +59,7 @@ export function syntheticProject(parsed: ParsedGitHubUrl): Project {
     repo: parsed.repo,
     canonicalUrl: parsed.canonicalUrl,
     defaultBranch: 'main',
-    latestSha: shaFromSeed(seed),
+    latestSha: ILLUSTRATIVE_SHA,
     primaryLanguage: ['C', 'C++', 'Go', 'Python', 'JavaScript'][seed % 5],
     category: 'unknown',
     licenseSpdx: null,
@@ -236,7 +239,8 @@ function hash(s: string): number {
   return h >>> 0
 }
 
-function shaFromSeed(seed: number): string {
-  const hex = (seed.toString(16) + 'a1b2c3d4e5f67890').slice(0, 40)
-  return hex.padEnd(40, '0')
+/** True when a report comes from seed data or the mock generator, i.e. no
+ *  commit was actually scanned. */
+export function isIllustrativeModel(modelVersion: string): boolean {
+  return modelVersion.startsWith('seed-illustrative') || modelVersion.startsWith('mock-scanner')
 }
